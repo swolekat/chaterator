@@ -56,6 +56,9 @@
         if (url.includes('youtube.com')) {
             return 'youtube';
         }
+        if (url.includes('kick.com')) {
+            return 'kick';
+        }
         return 'unknown';
     };
 
@@ -84,6 +87,9 @@
         if (type === 'youtube') {
             return `https://www.youtube.com/live_chat?v=${getYoutubeVideoId(url)}&embed_domain=${EMBED_DOMAIN}`;
         }
+        if (type === 'kick') {
+            return `https://kick.com/popout/${getTwitchUsername(url)}/chat`;
+        }
         return '';
     };
 
@@ -98,6 +104,10 @@
         if (type === 'youtube') {
 
             return `Youtube Stream ${getYoutubeVideoId(url)}`
+        }
+        if (type === 'kick') {
+            return `${getTwitchUsername(url)}'s Kick Stream`;
+
         }
         return '';
     };

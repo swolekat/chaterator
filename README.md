@@ -1,2 +1,9 @@
 # chaterator
-webpage for seeing multiple chats at the same time
+Website for seeing multiple chats at one time.
+
+Currently supported platforms:
+* Twitch
+* Youtube
+* Kick
+
+

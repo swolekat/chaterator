@@ -167,6 +167,10 @@ header {
     background: #FF0000;
 }
 
+.chat-header.kick {
+    background: #00e701;
+}
+
 .chat-body {
     flex-grow: 1;
 }
@@ -180,4 +184,8 @@ header {
 .icon-button.close-button img {
     height: 30px;
     width: 23px;
+}
+
+.chat-header.youtube img {
+    filter: brightness(0);
 }
