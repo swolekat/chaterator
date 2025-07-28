@@ -1,0 +1,30 @@
+{
+  "name": "chaterator",
+  "version": "0.0.1",
+  "description": "Page for combining multiple chats",
+  "keywords": [
+    "twitch",
+    "youtube",
+    "chat",
+    "streaming"
+  ],
+  "homepage": "https://github.com/swolekat/chaterator#readme",
+  "bugs": {
+    "url": "https://github.com/swolekat/chaterator/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swolekat/chaterator.git"
+  },
+  "license": "MIT",
+  "author": "Swolekat",
+  "type": "commonjs",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx @tailwindcss/cli -i ./style-input.css -o ./style-output.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}

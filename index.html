@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chaterator</title>
+    <link rel="stylesheet" href="./style-output.css">
+</head>
+<body>
+    <header>
+        <div>Logo Goes Here</div>
+        <div class="buttons">
+            <button>
+                Add Stream
+            </button>
+            <button>
+                About
+            </button>
+        </div>
+
+    </header>
+    <div class="content" id="content">
+        <div class="empty-content">
+            <div>
+                No chats.<br/><br/>Click the plus in the header to add a new one :3
+            </div>
+        </div>
+    </div>
+    <template id="empty-template">
+        <div class="empty-content">
+            <div>
+                No chats.<br/><br/>Click the plus in the header to add a new one :3
+            </div>
+        </div>
+    </template>
+    <template id="chat-template">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-name">
+
+                </div>
+                <button class="close-button">
+                    Close
+                </button>
+            </div>
+            <div class="chat-body">
+                <iframe />
+            </div>
+        </div>
+    </template>
+    <script src="index.js" />
+</body>
+</html>

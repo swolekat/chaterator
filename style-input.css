@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+html, body {
+    height: 100%;
+    width: 100%;
+    background: #100;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    flex-shrink: 0;
+    background: #caa;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.content {
+    flex-grow: 1;
+    display: grid;
+}
+
+.empty-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-content > div {
+    font-size: 24px;
+    padding: 40px;
+    max-width: 400px;
+    border: 1px solid #666;
+    color: #666;
+    text-align: center;
+}
