@@ -9,9 +9,9 @@
         try {
             const storageData = localStorage.getItem(LOCAL_STORAGE_KEY);
 
-            chats= JSON.parse(storageData) || [];
+            chats = JSON.parse(storageData) || [];
             renderChats();
-        } catch(e){
+        } catch (e) {
             console.error(e);
         }
     };
@@ -23,7 +23,7 @@
     const renderChats = () => {
         writeToLocalStorage();
         const contentElement = document.getElementById('content');
-        if(!contentElement){
+        if (!contentElement) {
             return;
         }
         if (chats.length === 0) {
@@ -59,6 +59,9 @@
         if (url.includes('kick.com')) {
             return 'kick';
         }
+        if (url.includes('tiktok.com')) {
+            return 'tiktok';
+        }
         return 'unknown';
     };
 
@@ -68,6 +71,11 @@
             return urlParts[urlParts.length - 2];
         }
         return urlParts[urlParts.length - 1];
+    }
+
+    const getTiktokUsername = (url) => {
+        const urlParts = url.split('/');
+        return urlParts[urlParts.length - 2];
     }
 
     const getYoutubeVideoId = (url) => {
@@ -90,6 +98,9 @@
         if (type === 'kick') {
             return `https://kick.com/popout/${getTwitchUsername(url)}/chat`;
         }
+        if (type === 'tiktok') {
+            return url;
+        }
         return '';
     };
 
@@ -108,6 +119,9 @@
         if (type === 'kick') {
             return `${getTwitchUsername(url)}'s Kick Stream`;
 
+        }
+        if (type === 'tiktok') {
+            return `${getTiktokUsername(url)}'s TikTok Stream`;
         }
         return '';
     };

@@ -171,6 +171,11 @@ header {
     background: #00e701;
 }
 
+.chat-header.tiktok {
+    background: #000;
+    color: #fff;
+}
+
 .chat-body {
     flex-grow: 1;
 }
