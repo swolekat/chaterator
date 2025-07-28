@@ -1,7 +1,7 @@
 // todo save/load chats from local storage
 
 (function () {
-    const EMBED_DOMAIN = 'swolekat.github.io/chaterator/';
+    const EMBED_DOMAIN = 'swolekat.github.io';
     let chats = [];
 
     const renderChats = () => {
