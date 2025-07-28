@@ -27,29 +27,6 @@
         </div>
     </div>
 
-    <template id="empty-template">
-        <div class="empty-content">
-            <div>
-                No chats.<br/><br/>Click the plus in the header to add a new one :3
-            </div>
-        </div>
-    </template>
-    <template id="chat-template">
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-name">
-
-                </div>
-                <button class="close-button">
-                    Close
-                </button>
-            </div>
-            <div class="chat-body">
-                <iframe />
-            </div>
-        </div>
-    </template>
-
     <el-dialog>
         <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
             <el-dialog-backdrop class="fixed inset-0 bg-gray-950/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
@@ -77,6 +54,31 @@
             </div>
         </dialog>
     </el-dialog>
+
+
+
+    <template id="empty-template">
+        <div class="empty-content">
+            <div>
+                No chats.<br/><br/>Click the plus in the header to add a new one :3
+            </div>
+        </div>
+    </template>
+    <template id="chat-template">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-name">
+
+                </div>
+                <button class="close-button">
+                    Close
+                </button>
+            </div>
+            <div class="chat-body">
+                <iframe />
+            </div>
+        </div>
+    </template>
 
 </body>
 </html>
