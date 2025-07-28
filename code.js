@@ -59,7 +59,7 @@
     const processUrl = (url, type) => {
         if (type === 'twitch') {
             // return `https://www.twitch.tv/popout/${getTwitchUsername(url)}/chat?popout=`;
-            return `https://www.twitch.tv/embed/${getTwitchUsername(url)}/chat?parent=http://localhost:63342/chaterator/index.html`;
+            return `https://www.twitch.tv/embed/${getTwitchUsername(url)}/chat?parent=https://swolekat.github.io/chaterator/`;
         }
         if (type === 'youtube') {
             return `https://www.youtube.com/live_chat?is_popout=1&v=${getYoutubeVideoId(url)}`;
