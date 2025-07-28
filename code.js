@@ -103,6 +103,7 @@
     };
 
     window.onAdd = () => {
+        window.closeAddModal();
         const urlInput = document.getElementById('add-url');
         const nicknameInput = document.getElementById('add-nickname');
         const url = urlInput.value;
@@ -128,6 +129,16 @@
     window.onRemove = (id) => {
         chats = chats.filter(c => c.id !== id);
         renderChats();
+    };
+
+    window.openAddModal = () => {
+        const modalElement = document.getElementById('add-new-modal');
+        modalElement.style.display = '';
+    };
+
+    window.closeAddModal = () => {
+        const modalElement = document.getElementById('add-new-modal');
+        modalElement.style.display = 'none';
     };
 
     setTimeout(() => {

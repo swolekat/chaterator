@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Chaterator</title>
-    <link rel="stylesheet" href="./style-output.css">
+    <link rel="stylesheet" href="./style-input.css">
     <script type="application/javascript" src="./code.js"></script>
 </head>
 <body>
     <header>
         <div>Logo Goes Here</div>
         <div class="buttons">
-            <button command="show-modal" commandfor="dialog" >
-                Add Stream
+            <button class="icon-button" onclick="openAddModal()">
+                <img src="plus.svg">
             </button>
-
-            <button>
-                About
+            <button class="icon-button">
+                <img src="info.svg">
             </button>
         </div>
     </header>
@@ -27,35 +26,30 @@
         </div>
     </div>
 
-    <el-dialog>
-        <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop class="fixed inset-0 bg-gray-950/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+    <div class="modal" id="add-new-modal" style="display: none;">
+        <div class="modal-background" onclick="closeAddModal()">
 
-            <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel class="relative transform overflow-hidden rounded-lg modal-background text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="add-modal-body">
-                        <h3>
-                            Add Stream
-                        </h3>
-                        <div>
-                            <label for="add-url">Stream Url</label>
-                            <input id="add-url" placeholder="Enter Stream Url">
-                        </div>
-                        <div>
-                            <label for="add-nickname">Stream Nickname (optional)</label>
-                            <input id="add-nickname" placeholder="Enter Nickname (optional)">
-                        </div>
-                    </div>
-                    <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        <button type="button" command="close" commandfor="dialog" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto" onClick="onAdd()">Add</button>
-                        <button type="button" command="close" commandfor="dialog" class="mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-xs ring-1 ring-inset sm:mt-0 sm:w-auto">Cancel</button>
-                    </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
-
-
+        </div>
+         <div class="modal-content">
+             <div class="add-modal-body">
+                 <h3>
+                     Add Stream
+                 </h3>
+                 <div>
+                     <label for="add-url">Stream Url</label>
+                     <input id="add-url" placeholder="Enter Stream Url">
+                 </div>
+                 <div>
+                     <label for="add-nickname">Stream Nickname (optional)</label>
+                     <input id="add-nickname" placeholder="Enter Nickname (optional)">
+                 </div>
+             </div>
+             <div class="modal-footer">
+                 <button class="green" onClick="onAdd()">Add</button>
+                 <button onclick="closeAddModal()">Cancel</button>
+             </div>
+         </div>
+    </div>
 
     <template id="empty-template">
         <div class="empty-content">
@@ -70,8 +64,8 @@
                 <div class="chat-name">
 
                 </div>
-                <button class="close-button">
-                    Close
+                <button class="icon-button close-button">
+                    <img src="x.svg">
                 </button>
             </div>
             <div class="chat-body">
