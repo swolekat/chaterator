@@ -1,7 +1,7 @@
 // todo save/load chats from local storage
 
 (function () {
-    const EMBED_DOMAIN = 'https://swolekat.github.io/chaterator/';
+    const EMBED_DOMAIN = 'swolekat.github.io/chaterator/';
     let chats = [];
 
     const renderChats = () => {
@@ -59,11 +59,10 @@
     // https://www.youtube.com/live_chat?is_popout=1&v=wRqe6OYqAn4
     const processUrl = (url, type) => {
         if (type === 'twitch') {
-            // return `https://www.twitch.tv/popout/${getTwitchUsername(url)}/chat?popout=`;
             return `https://www.twitch.tv/embed/${getTwitchUsername(url)}/chat?parent=${EMBED_DOMAIN}`;
         }
         if (type === 'youtube') {
-            return `https://www.youtube.com/live_chat?is_popout=1&v=${getYoutubeVideoId(url)}&embedD_domain=${EMBED_DOMAIN}`;
+            return `https://www.youtube.com/live_chat?v=${getYoutubeVideoId(url)}&embedD_domain=${EMBED_DOMAIN}`;
         }
         return '';
     };
