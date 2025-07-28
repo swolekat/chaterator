@@ -106,6 +106,8 @@
     };
 
     window.onRemove = (id) => {
+        chat = chat.filter(c => c.id !== id);
+        renderChats();
     };
 }())
 
