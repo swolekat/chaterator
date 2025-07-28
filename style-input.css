@@ -4,6 +4,7 @@ html, body {
     height: 100%;
     width: 100%;
     background: #100;
+    font-size: 16px;
 }
 
 body {
@@ -27,6 +28,8 @@ header {
 .content {
     flex-grow: 1;
     display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow:column;
 }
 
 .empty-content {
@@ -44,4 +47,65 @@ header {
     border: 1px solid #666;
     color: #666;
     text-align: center;
+    border-radius: 10px;
+}
+
+.modal-background {
+    background: #422;
+    color: #aaa;
+}
+
+.add-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.add-modal-body h3 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.add-modal-body div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input {
+    border: 1px solid #666;
+    padding: 5px;
+    border-radius: 5px;
+    background: #644;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    color: #000;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.chat-header.twitch {
+    background: #6441a5;
+    color: #fff;
+}
+
+.chat-header.youtube {
+    background: #FF0000;
+}
+
+.chat-body {
+    flex-grow: 1;
+}
+
+.chat-body iframe {
+    height: 100%;
+    width: 100%;
 }
