@@ -1,7 +1,7 @@
 // todo save/load chats from local storage
 
 (function () {
-    const EMBED_DOMAIN = 'swolekat.github.io';
+    const EMBED_DOMAIN =  window.location.hostname; //'swolekat.github.io';
     const LOCAL_STORAGE_KEY = 'chaterator_data';
     let chats = [];
 
@@ -18,34 +18,6 @@
 
     const writeToLocalStorage = () => {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chats));
-    };
-
-    const renderChats = () => {
-        writeToLocalStorage();
-        const contentElement = document.getElementById('content');
-        if (!contentElement) {
-            return;
-        }
-        if (chats.length === 0) {
-            const template = document.querySelector("#empty-template");
-            const clone = template.content.cloneNode(true);
-            contentElement.replaceChildren([]);
-            contentElement.appendChild(clone);
-            return;
-        }
-        contentElement.innerHTML = '';
-        const chatTemplate = document.querySelector("#chat-template");
-        chats.forEach(chat => {
-            const {trueUrl, nickname, type, id} = chat;
-            const myElement = chatTemplate.content.cloneNode(true);
-            myElement.id = id;
-            myElement.querySelector('.chat-header').className = `chat-header ${type}`;
-            myElement.querySelector('.chat-name').innerHTML = nickname;
-            myElement.querySelector('.close-button').addEventListener('click', () => window.onRemove(id));
-            myElement.querySelector('iframe').src = trueUrl;
-
-            contentElement.appendChild(myElement);
-        });
     };
 
 
@@ -86,8 +58,72 @@
         return searchParams.get("v");
     };
 
+    const processPlayer = (chat) => {
+        const {type, id, url} = chat;
+        if(type === 'twitch') {
+            new Twitch.Embed(`chat-body-${id}`, {
+                width: '100%',
+                height: '100%',
+                channel: getTwitchUsername(url)
+            });
+        }
+    };
 
-    // https://www.youtube.com/live_chat?is_popout=1&v=wRqe6OYqAn4
+    const getPlayerUrl = (chat) => {
+        const {type, url} = chat;
+        if(type === 'twitch') {
+            return '';
+        }
+        if(type === 'youtube') {
+            return `https://www.youtube.com/embed/${getYoutubeVideoId(url)}`;
+        }
+        if(type === 'kick') {
+            return `https://player.kick.com/${getTwitchUsername(url)}`;
+        }
+    };
+
+    const renderChats = () => {
+        writeToLocalStorage();
+        const contentElement = document.getElementById('content');
+        if (!contentElement) {
+            return;
+        }
+        if (chats.length === 0) {
+            const template = document.querySelector("#empty-template");
+            const clone = template.content.cloneNode(true);
+            contentElement.replaceChildren([]);
+            contentElement.appendChild(clone);
+            return;
+        }
+        contentElement.innerHTML = '';
+        const chatTemplate = document.querySelector("#chat-template");
+        chats.forEach(chat => {
+            const {trueUrl, nickname, type, id, isPlayer} = chat;
+            const myElement = chatTemplate.content.cloneNode(true);
+            myElement.id = id;
+            myElement.querySelector('.chat-header').className = `chat-header ${type}`;
+            myElement.querySelector('.chat-name').innerHTML = nickname;
+            myElement.querySelector('.close-button').addEventListener('click', () => window.onRemove(id));
+            myElement.querySelector('.chat-body').id = `chat-body-${id}`;
+
+            const playerUrl = getPlayerUrl(chat);
+
+            if(isPlayer && !playerUrl){
+                myElement.className = `${myElement.className} player`;
+                myElement.querySelector('.chat-body').innerHTML = '';
+                setTimeout(() => {
+                    processPlayer(chat);
+                }, 100);
+
+            } else {
+                myElement.querySelector('iframe').src = isPlayer ? playerUrl : trueUrl;
+            }
+
+
+            contentElement.appendChild(myElement);
+        });
+    };
+
     const processUrl = (url, type) => {
         if (type === 'twitch') {
             return `https://www.twitch.tv/embed/${getTwitchUsername(url)}/chat?parent=${EMBED_DOMAIN}`;
@@ -130,11 +166,14 @@
         window.closeAddModal();
         const urlInput = document.getElementById('add-url');
         const nicknameInput = document.getElementById('add-nickname');
+        const isPlayerCheckbox = document.getElementById('add-is-player');
         const url = urlInput.value;
         const nickname = nicknameInput.value;
+        const isPlayer = isPlayerCheckbox.checked;
 
         urlInput.value = '';
         nicknameInput.value = '';
+        isPlayerCheckbox.checked = false;
 
         const type = getTypeFromUrl(url);
         if (type === 'unknown') {
@@ -146,6 +185,7 @@
             nickname: processNickname(nickname, url, type),
             type: type,
             id: Date.now(),
+            isPlayer: isPlayer || type === 'tiktok',
         });
         renderChats();
     };
