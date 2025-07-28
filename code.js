@@ -2,10 +2,30 @@
 
 (function () {
     const EMBED_DOMAIN = 'swolekat.github.io';
+    const LOCAL_STORAGE_KEY = 'chaterator_data';
     let chats = [];
 
+    const readFromLocalStorage = () => {
+        try {
+            const storageData = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+            chats= JSON.parse(storageData) || [];
+            renderChats();
+        } catch(e){
+            console.error(e);
+        }
+    };
+
+    const writeToLocalStorage = () => {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chats));
+    };
+
     const renderChats = () => {
+        writeToLocalStorage();
         const contentElement = document.getElementById('content');
+        if(!contentElement){
+            return;
+        }
         if (chats.length === 0) {
             const template = document.querySelector("#empty-template");
             const clone = template.content.cloneNode(true);
@@ -14,14 +34,14 @@
             return;
         }
         contentElement.innerHTML = '';
-        const chatTemplate = document.getElementById('chat-template');
+        const chatTemplate = document.querySelector("#chat-template");
         chats.forEach(chat => {
             const {trueUrl, nickname, type, id} = chat;
             const myElement = chatTemplate.content.cloneNode(true);
             myElement.id = id;
             myElement.querySelector('.chat-header').className = `chat-header ${type}`;
             myElement.querySelector('.chat-name').innerHTML = nickname;
-            myElement.querySelector('.close-button').onclose = () => window.onRemove(id);
+            myElement.querySelector('.close-button').addEventListener('click', () => window.onRemove(id));
             myElement.querySelector('iframe').src = trueUrl;
 
             contentElement.appendChild(myElement);
@@ -106,9 +126,13 @@
     };
 
     window.onRemove = (id) => {
-        chat = chat.filter(c => c.id !== id);
+        chats = chats.filter(c => c.id !== id);
         renderChats();
     };
+
+    setTimeout(() => {
+        readFromLocalStorage();
+    }, 100);
 }())
 
 
