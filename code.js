@@ -84,19 +84,24 @@
 
     const renderChats = () => {
         writeToLocalStorage();
-        const contentElement = document.getElementById('content');
+        const contentElement = document.getElementById('inner-content');
         if (!contentElement) {
             return;
         }
+        const emptyElement = document.getElementById('empty-content');
         if (chats.length === 0) {
+            emptyElement.style.display = '';
             const template = document.querySelector("#empty-template");
             const clone = template.content.cloneNode(true);
             contentElement.replaceChildren([]);
             contentElement.appendChild(clone);
             return;
         }
+        emptyElement.style.display = 'none';
         contentElement.innerHTML = '';
         const chatTemplate = document.querySelector("#chat-template");
+        const columns = chats.map(c => c.isPlayer ? '4fr' : '1fr').join(' ');
+        contentElement.style.gridTemplateColumns = columns;
         chats.forEach(chat => {
             const {trueUrl, nickname, type, id, isPlayer} = chat;
             const myElement = chatTemplate.content.cloneNode(true);

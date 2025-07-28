@@ -10,6 +10,7 @@ html, body {
     font-family: 'Trebuchet MS', sans-serif;
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
 body {
@@ -63,17 +64,26 @@ header {
 
 .content {
     flex-grow: 1;
+
+    position: relative;
+}
+
+.inner-content {
     display: grid;
-    grid-auto-columns: 1fr 1fr;
-    grid-auto-flow:column;
+    height: 100%;
+    width: 100%;
 }
 
 .empty-content {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #100;
 }
 
 .empty-content > div {
@@ -152,7 +162,7 @@ header {
 .chat-container {
     display: flex;
     flex-direction: column;
-    column-span: 2;
+    column-span: 1;
 }
 
 .chat-header {
