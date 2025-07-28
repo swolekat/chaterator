@@ -62,7 +62,7 @@
             return `https://www.twitch.tv/embed/${getTwitchUsername(url)}/chat?parent=${EMBED_DOMAIN}`;
         }
         if (type === 'youtube') {
-            return `https://www.youtube.com/live_chat?v=${getYoutubeVideoId(url)}&embedD_domain=${EMBED_DOMAIN}`;
+            return `https://www.youtube.com/live_chat?v=${getYoutubeVideoId(url)}&embed_domain=${EMBED_DOMAIN}`;
         }
         return '';
     };
