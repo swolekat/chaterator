@@ -212,6 +212,12 @@
 
     setTimeout(() => {
         readFromLocalStorage();
+        document.getElementById('add-url').addEventListener('keydown', (e) => {
+            if(e.key !== 'Enter') {
+                return;
+            }
+            onAdd();
+        });
     }, 100);
 }())
 
