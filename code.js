@@ -103,13 +103,14 @@
         const columns = chats.map(c => c.isPlayer ? '4fr' : '1fr').join(' ');
         contentElement.style.gridTemplateColumns = columns;
         chats.forEach(chat => {
-            const {trueUrl, nickname, type, id, isPlayer} = chat;
+            const {trueUrl, nickname, type, id, isPlayer, url} = chat;
             const myElement = chatTemplate.content.cloneNode(true);
             myElement.id = id;
             myElement.querySelector('.chat-header').className = `chat-header ${type}`;
             myElement.querySelector('.chat-name').innerHTML = nickname;
             myElement.querySelector('.close-button').addEventListener('click', () => window.onRemove(id));
             myElement.querySelector('.chat-body').id = `chat-body-${id}`;
+            myElement.querySelector('.link-button').href = url;
 
             const playerUrl = getPlayerUrl(chat);
 
