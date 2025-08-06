@@ -91,10 +91,6 @@
         const emptyElement = document.getElementById('empty-content');
         if (chats.length === 0) {
             emptyElement.style.display = '';
-            const template = document.querySelector("#empty-template");
-            const clone = template.content.cloneNode(true);
-            contentElement.replaceChildren([]);
-            contentElement.appendChild(clone);
             return;
         }
         emptyElement.style.display = 'none';
@@ -111,6 +107,8 @@
             myElement.querySelector('.close-button').addEventListener('click', () => window.onRemove(id));
             myElement.querySelector('.chat-body').id = `chat-body-${id}`;
             myElement.querySelector('.link-button').href = url;
+            myElement.querySelector('.left-button').addEventListener('click', () => window.moveLeft(id));
+            myElement.querySelector('.right-button').addEventListener('click', () => window.moveRight(id));
 
             const playerUrl = getPlayerUrl(chat);
 
@@ -209,6 +207,27 @@
     window.closeAddModal = () => {
         const modalElement = document.getElementById('add-new-modal');
         modalElement.style.display = 'none';
+    };
+
+    window.moveLeft = (id) => {
+        const currentIndex = chats.findIndex((a) => a.id === id);
+        if(currentIndex === 0){
+            return;
+        }
+        const [chatToMove] =  chats.splice(currentIndex, 1);
+        const newIndex = currentIndex - 1;
+        chats.splice(newIndex, 0, chatToMove);
+        renderChats();
+    };
+    window.moveRight = (id) => {
+        const currentIndex = chats.findIndex((a) => a.id === id);
+        if(currentIndex === chats.length - 1){
+            return;
+        }
+        const [chatToMove] =  chats.splice(currentIndex, 1);
+        const newIndex = currentIndex + 1;
+        chats.splice(newIndex, 0, chatToMove);
+        renderChats();
     };
 
     setTimeout(() => {

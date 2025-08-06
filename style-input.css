@@ -203,15 +203,15 @@ header {
 
 .chat-buttons {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
 
 
-.icon-button.link-button img,
-.icon-button.close-button img {
+.icon-button img {
     height: 30px;
-    width: 23px;
+    width: 30px;
 }
 
 .chat-header.youtube img {
