@@ -4,32 +4,6 @@
     const EMBED_DOMAIN =  window.location.hostname; //'swolekat.github.io';
     let chats = [];
 
-    const readFromQueryParams = () => {
-        try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const data = atob(urlParams.get('data') || '');
-
-            chats = JSON.parse(data) || [];
-            renderChats();
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
-    const writeToQueryParams = () => {
-        const url = new URL(window.location.href);
-        const params = url.searchParams;
-        const encodedData = btoa(JSON.stringify(chats))
-        if(params.get('data')) {
-            params.set('data', encodedData);
-            history.replaceState(null, null, `?${params.toString()}`);
-            return;
-        }
-        params.append('data', encodedData);
-        history.replaceState(null, null, `?${params.toString()}`);
-    };
-
-
     const getTypeFromUrl = (url) => {
         if (url.includes('twitch.tv')) {
             return 'twitch';
@@ -44,6 +18,64 @@
             return 'tiktok';
         }
         return 'unknown';
+    };
+
+    const processNickname = (nickname, url) => {
+        const type = getTypeFromUrl(url);
+        if (!!nickname && !!nickname.trim()) {
+            return nickname;
+        }
+        if (type === 'twitch') {
+            return `${getTwitchUsername(url)}'s Twitch Stream`;
+
+        }
+        if (type === 'youtube') {
+
+            return `Youtube Stream ${getYoutubeVideoId(url)}`
+        }
+        if (type === 'kick') {
+            return `${getTwitchUsername(url)}'s Kick Stream`;
+
+        }
+        if (type === 'tiktok') {
+            return `${getTiktokUsername(url)}'s TikTok Stream`;
+        }
+        return '';
+    };
+
+    const readFromQueryParams = () => {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);decodeURIComponent()
+            const data = decodeURIComponent(urlParams.get('data') || '');
+
+            chats = JSON.parse(data) || [];
+            chats = chats.map((chat, index) => ({
+                id: index,
+                nickname: chat.nickname || processNickname('', chat.url),
+                    ...chat,
+            }))
+            renderChats();
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const writeToQueryParams = () => {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        const clonedChats = chats.map(chat => {
+            const clonedChat = JSON.parse(JSON.stringify(chat));
+            delete clonedChat.id;
+            return clonedChat;
+        }) ;
+        const encodedData = encodeURIComponent(JSON.stringify(clonedChats));
+        if(params.get('data')) {
+            params.set('data', encodedData);
+            history.replaceState(null, null, `?${params.toString()}`);
+            return;
+        }
+        params.append('data', encodedData);
+        history.replaceState(null, null, `?${params.toString()}`);
     };
 
     const getTwitchUsername = (url) => {
@@ -68,7 +100,8 @@
     };
 
     const processPlayer = (chat) => {
-        const {type, id, url} = chat;
+        const {id, url} = chat;
+        const type = getTypeFromUrl(url);
         if(type === 'twitch') {
             new Twitch.Embed(`chat-body-${id}`, {
                 width: '100%',
@@ -79,7 +112,8 @@
     };
 
     const getPlayerUrl = (chat) => {
-        const {type, url} = chat;
+        const {url} = chat;
+        const type = getTypeFromUrl(url);
         if(type === 'twitch') {
             return '';
         }
@@ -108,11 +142,13 @@
         const columns = chats.map(c => c.isPlayer ? '4fr' : '1fr').join(' ');
         contentElement.style.gridTemplateColumns = columns;
         chats.forEach(chat => {
-            const {trueUrl, nickname, type, id, isPlayer, url} = chat;
+            const {nickname, id, isPlayer, url} = chat;
+            const type = getTypeFromUrl(url);
+            const trueUrl = processUrl(url, type);
             const myElement = chatTemplate.content.cloneNode(true);
             myElement.id = id;
             myElement.querySelector('.chat-header').className = `chat-header ${type}`;
-            myElement.querySelector('.chat-name').innerHTML = nickname;
+            myElement.querySelector('.chat-name').innerHTML = processNickname(nickname, url);
             myElement.querySelector('.close-button').addEventListener('click', () => window.onRemove(id));
             myElement.querySelector('.chat-body').id = `chat-body-${id}`;
             myElement.querySelector('.link-button').href = url;
@@ -153,27 +189,7 @@
         return '';
     };
 
-    const processNickname = (nickname, url, type) => {
-        if (!!nickname.trim()) {
-            return nickname;
-        }
-        if (type === 'twitch') {
-            return `${getTwitchUsername(url)}'s Twitch Stream`;
 
-        }
-        if (type === 'youtube') {
-
-            return `Youtube Stream ${getYoutubeVideoId(url)}`
-        }
-        if (type === 'kick') {
-            return `${getTwitchUsername(url)}'s Kick Stream`;
-
-        }
-        if (type === 'tiktok') {
-            return `${getTiktokUsername(url)}'s TikTok Stream`;
-        }
-        return '';
-    };
 
     window.onAdd = () => {
         window.closeAddModal();
@@ -192,14 +208,19 @@
         if (type === 'unknown') {
             return;
         }
-        chats.push({
+        const chatObject = {
             url,
-            trueUrl: processUrl(url, type),
-            nickname: processNickname(nickname, url, type),
-            type: type,
+            nickname,
             id: Date.now(),
-            isPlayer: isPlayer || type === 'tiktok',
-        });
+        };
+        if(!chatObject.nickname){
+            delete chatObject.nickname;
+        }
+        const realIsPlayer = isPlayer || type === 'tiktok';
+        if(realIsPlayer) {
+            chatObject.isPlayer = true;
+        }
+        chats.push(chatObject);
         renderChats();
     };
 
