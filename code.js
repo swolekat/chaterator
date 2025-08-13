@@ -2,22 +2,30 @@
 
 (function () {
     const EMBED_DOMAIN =  window.location.hostname; //'swolekat.github.io';
-    const LOCAL_STORAGE_KEY = 'chaterator_data';
     let chats = [];
 
-    const readFromLocalStorage = () => {
+    const readFromQueryParams = () => {
         try {
-            const storageData = localStorage.getItem(LOCAL_STORAGE_KEY);
+            const urlParams = new URLSearchParams(window.location.search);
+            const data = atob(urlParams.get('data') || '');
 
-            chats = JSON.parse(storageData) || [];
+            chats = JSON.parse(data) || [];
             renderChats();
         } catch (e) {
             console.error(e);
         }
     };
 
-    const writeToLocalStorage = () => {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(chats));
+    const writeToQueryParams = () => {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        const encodedData = btoa(JSON.stringify(chats))
+        if(params.get('data')) {
+            params.set('data', encodedData);
+            return;
+        }
+        params.append('data', encodedData);
+        history.replaceState(null, null, `?${params.toString()}`);
     };
 
 
@@ -83,7 +91,7 @@
     };
 
     const renderChats = () => {
-        writeToLocalStorage();
+        writeToQueryParams();
         const contentElement = document.getElementById('inner-content');
         if (!contentElement) {
             return;
@@ -231,7 +239,7 @@
     };
 
     setTimeout(() => {
-        readFromLocalStorage();
+        readFromQueryParams();
         document.getElementById('add-url').addEventListener('keydown', (e) => {
             if(e.key !== 'Enter') {
                 return;
