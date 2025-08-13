@@ -22,6 +22,7 @@
         const encodedData = btoa(JSON.stringify(chats))
         if(params.get('data')) {
             params.set('data', encodedData);
+            history.replaceState(null, null, `?${params.toString()}`);
             return;
         }
         params.append('data', encodedData);
