@@ -5,6 +5,7 @@ Currently supported platforms:
 * Twitch
 * Youtube
 * Kick
+* Tiktok (kinda... You need to use tikfinity and paste the chat overlay like https://tikfinity.zerody.one/widget/activity-feed?cid=2120852&did=1 for example)
 
 # Known Issues
 I would highly recommend you use this site on chrome since that's what youtube probably tests with. 

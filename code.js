@@ -14,7 +14,7 @@
         if (url.includes('kick.com')) {
             return 'kick';
         }
-        if (url.includes('tiktok.com')) {
+        if (url.includes('tikfinity.zerody.one')) {
             return 'tiktok';
         }
         return 'unknown';
@@ -30,7 +30,6 @@
 
         }
         if (type === 'youtube') {
-
             return `Youtube Stream ${getYoutubeVideoId(url)}`
         }
         if (type === 'kick') {
@@ -38,7 +37,7 @@
 
         }
         if (type === 'tiktok') {
-            return `${getTiktokUsername(url)}'s TikTok Stream`;
+            return `TikTok Stream`;
         }
         return '';
     };
